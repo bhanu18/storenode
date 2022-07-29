@@ -63,6 +63,7 @@ app.use(session({
 // flash
 app.use(flash());
 
+
 // global varieble 
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
