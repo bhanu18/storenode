@@ -4,7 +4,7 @@
     "description": "api for news",
     "main": "index.js",
     "scripts": {
-        "start": "",
+        "start": "nodemon app.js",
         "dev": "nodemon app.js"
     },
     "author": "",
