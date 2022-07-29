@@ -21,20 +21,6 @@ connectDB()
 
 const app = express();
 
-// handlebars
-app.engine('.hbs', exphbs.engine({
-    helpers: {
-        formatDate,
-        getTotalPrice,
-        getImage,
-        select
-    },
-    defaultLayout: 'main',
-    extname: '.hbs'
-}));
-
-app.use(express.static(path.join(__dirname, 'public')))
-app.set('view engine', '.hbs');
 
 // body parsers
 app.use(express.json());
@@ -63,6 +49,24 @@ app.use(session({
 // flash
 app.use(flash());
 
+// handlebars
+app.engine('.hbs', exphbs.engine({
+    helpers: {
+        formatDate,
+        getTotalPrice,
+        getImage,
+        select
+    },
+    defaultLayout: 'main',
+    extname: '.hbs'
+}));
+
+app.use(express.static(path.join(__dirname, 'public')))
+app.set('view engine', '.hbs');
+
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // global varieble 
 app.use((req, res, next) => {
@@ -71,10 +75,6 @@ app.use((req, res, next) => {
     res.locals.error = req.flash('error');
     next();
 });
-
-// passport
-app.use(passport.initialize());
-app.use(passport.session());
 
 // morgan
 app.use(morgan('dev'));
