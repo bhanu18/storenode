@@ -21,7 +21,7 @@ connectDB()
 const app = express();
 
 // handlebars
-app.engine('hbs', exphbs.engine({
+app.engine('.hbs', exphbs.engine({
     defaultLayout: 'main',
     extname: '.hbs',
     helpers: {
@@ -32,9 +32,8 @@ app.engine('hbs', exphbs.engine({
     }
 }));
 
+app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', '.hbs');
-
-app.use(express.static('public'));
 
 // body parsers
 app.use(express.json());
