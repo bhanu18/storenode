@@ -23,14 +23,14 @@ const app = express();
 
 // handlebars
 app.engine('.hbs', exphbs.engine({
-    defaultLayout: 'main',
-    extname: '.hbs',
     helpers: {
         formatDate,
         getTotalPrice,
         getImage,
         select
-    }
+    },
+    defaultLayout: 'main',
+    extname: '.hbs'
 }));
 
 app.use(express.static(path.join(__dirname, 'public')))
@@ -59,9 +59,6 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
 }));
-
-// // file upload
-// app.use(fileUpload());
 
 // flash
 app.use(flash());
