@@ -12,8 +12,6 @@
     "dependencies": {
         "@sendgrid/mail": "^7.7.0",
         "bcryptjs": "^2.4.3",
-        "bootstrap": "^5.2.0-beta1",
-        "bootstrap-icons": "^1.8.3",
         "connect-flash": "^0.1.1",
         "connect-mongo": "^4.6.0",
         "dotenv": "^16.0.1",
