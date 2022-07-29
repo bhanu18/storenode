@@ -8,6 +8,7 @@ const MongoStore = require('connect-mongo')
 const connectDB = require('./config/db')
 const flash = require('connect-flash')
 const methodOverride = require('method-override')
+const path = require('path')
 const { formatDate, getTotalPrice, getImage, select } = require('./helpers/helpers')
 
 dotenv.config({ path: './config/config.env' })
