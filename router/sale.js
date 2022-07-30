@@ -2,10 +2,13 @@ const express = require('express')
 const router = express.Router()
 const { ensureAuthenticated } = require('../middleware/auth');
 const ObjectId = require('mongodb').ObjectId;
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const Sale = require('../models/Sale');
 const Product = require('../models/Products');
 const Items = require('../models/Items');
+const MisedSales = require('../models/MissedSales');
 
 router.get('/view/:id', async function (req, res) {
     try {
@@ -230,10 +233,6 @@ router.get('/delete/:id', ensureAuthenticated, async (req, res) => {
 router.get('/send', async function (req, res) {
     try {
 
-        const sgMail = require('@sendgrid/mail');
-
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
         const msg = {
             to: 'bmansinghani@gmail.com',
             from: process.env.SITE_EMAIL, // Use the email address or domain you verified above
@@ -245,6 +244,18 @@ router.get('/send', async function (req, res) {
         await sgMail.send(msg);
     } catch (error) {
         console.log(error);
+    }
+})
+
+router.post('/missed', async function(req, res){
+    try {
+        await MisedSales.create(req.body)
+            // console.log(req.body);
+        req.flash('success_msg', 'Added succesfully');
+        res.redirect('/dashboard')
+    } catch (err) {
+        console.error(err)
+        res.render('error/500')
     }
 })
 

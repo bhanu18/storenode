@@ -71,27 +71,48 @@
         </table>
     </div>
 
-       <div class="bg-light p-5 mt-2">
-        <table class="table table-hover table-responsive">
-            <thead>
-                <th>Name </th>
-                <th>Email</th>
-                <th>Subject</th>
-                <th>Message</th>
-                <th>Consent</th>
-            </thead>
-            <tbody>
-                {{#each contact}}
-                <tr>
-                    <td>{{name}}</td>
-                    <td>{{email}}</td>
-                    <td>{{subject}}</td>
-                    <td>{{message}}</td>
-                    <td>{{consent}}</td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
+    <div class="bg-light p-5 mt-2">
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-responsive">
+                    <thead>
+                        <th>Name </th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Consent</th>
+                    </thead>
+                    <tbody>
+                        {{#each contact}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{email}}</td>
+                            <td>{{subject}}</td>
+                            <td>{{message}}</td>
+                            <td>{{consent}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMissedSale"> Add </button>
+                <table class="table table-hover table-responsive">
+                    <thead>
+                        <th>Product </th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        {{#each missed_sales}}
+                        <tr>
+                            <td>{{product}}</td>
+                            <td>{{description}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </main>
 
@@ -126,7 +147,7 @@
                             Please enter price
                         </div>
                     </div>
-                     <div class="mb-3">
+                    <div class="mb-3">
                         <label for="price" class="form-label">Quantity</label>
                         <input type="text" name="quantity" class="form-control" id="price" required>
                         <div class="invalid-feedback">
@@ -136,6 +157,44 @@
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Description</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            name="description"></textarea>
+                    </div>
+                    <div class="mb-3 text-right">
+                        <div class="row">
+                            <div class="col-6 d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- missed sale Modal -->
+<div class="modal fade" id="addMissedSale" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="sale/missed" method="post" class="needs-validation">
+                    <div class="mb-3">
+                        <label for="Product" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="product" id="name" required>
+                        <div class="invalid-feedback">
+                            Please enter a product name
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" required rows="3"
                             name="description"></textarea>
                     </div>
                     <div class="mb-3 text-right">
