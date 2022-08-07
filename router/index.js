@@ -7,6 +7,7 @@ const Contact = require('../models/Contact');
 const MisedSales = require('../models/MissedSales');
 
 const sgMail = require('@sendgrid/mail');
+const Products = require('../models/Products')
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -42,6 +43,17 @@ router.get('/dashboard', ensureAuthenticated, async function (req, res) {
         });
     } catch (error) {
         console.log(error)
+    }
+})
+
+router.get('/prod', async (req, res) => {
+    try {
+        const products = await Products.find().lean();
+
+        res.status(200).json(products);
+
+    } catch (error) {
+        console.log(error);
     }
 })
 
