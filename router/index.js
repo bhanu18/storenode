@@ -100,11 +100,9 @@ router.post('/contact', async function (req, res) {
                 consent: req.body.contact_consent
             }
 
-            if (await sgMail.send(msg)) {
-                await Contact.create(contact_obj);
+            if (await Contact.create(contact_obj)) {
+                await sgMail.send(msg);
             }
-
-            // await sgMail.send(msg);
 
             req.flash('success_msg', 'Message sent');
             res.redirect('/');

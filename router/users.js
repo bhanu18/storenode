@@ -10,10 +10,13 @@ const User = require('../models/Users');
 router.get('/', ensureAuthenticated, async function(req, res) {
 
     const user = await User.findById({ _id: req.user._id }).lean()
+
+    const users = await User.find().lean();
     // console.log(user);
     res.render('user/index', {
         layout: 'loggedin',
-        user
+        user,
+        users
     });
 });
 

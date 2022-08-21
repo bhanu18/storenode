@@ -4,6 +4,7 @@ const { ensureAuthenticated } = require('../middleware/auth');
 const ObjectId = require('mongodb').ObjectId;
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const util = require('util')
 
 const Sale = require('../models/Sale');
 const Product = require('../models/Products');
@@ -233,20 +234,45 @@ router.get('/delete/:id', ensureAuthenticated, async (req, res) => {
 router.get('/send', async function (req, res) {
     try {
 
+        const missed_sales = await MisedSales.find().lean();
+
+        let table = "<table>";
+
+        for(let i = 0; i < missed_sales.length; i++){
+            table += "<tr>";
+            table += "<td>"+missed_sales[i].product + "<td>";
+            table += "<td>"+missed_sales[i].description + "<td>";
+            table += "</tr>";
+
+            // console.log(util.inspect(missed_sales[i].product, false, null));
+        }
+
+        table += "</table>";
+
+
+        console.log(table);
+
         const msg = {
-            to: 'bmansinghani@gmail.com',
+            to: process.env.USER_EMAIL,
             from: process.env.SITE_EMAIL, // Use the email address or domain you verified above
-            subject: 'cron test',
+            subject: 'Weekly Missed sale',
             text: 'testing this cron',
-            html: '<p> testing this cron service </p>',
+            html: table,
         };
 
         await sgMail.send(msg);
+
+        res.status(200).json({'message': "Sent"});
+
+        return;
+
     } catch (error) {
         console.log(error);
+        res.status(500).json({'error': error});
+        return;
     }
 })
-
+;
 router.post('/missed', async function(req, res){
     try {
         await MisedSales.create(req.body)
