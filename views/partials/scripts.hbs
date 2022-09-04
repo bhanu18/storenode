@@ -44,7 +44,7 @@
 
     function add_more(obj) {
         const html = '<tr><td><select class="form-select" name="products[]" id="products" required><option value="">Select a Product </option>{{#each product}}<option value="{{_id}}">{{name}}</option>{{/each}}</select></td><td><input type="number" name="quantity[]" id="" required class="form-control"></td><td><input type="text" name="price[]" required id="price" class="form-control"></td><td><input type="text" name="total[]" id="total" class="form-control"></td><td><a href="javascript:void(0)" onClick="add_more(); "><i class="bi bi-plus-circle-fill"></i> </a> <a href="javascript:void(0)" onClick="remove_row(this);"><i class="bi bi-trash"></i></a></td> </tr>';
-        $('.table').append(html);
+        $('.table-sale').append(html);
     }
 
     function remove_row(obj) {

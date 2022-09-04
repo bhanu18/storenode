@@ -236,7 +236,7 @@ router.get('/send', async function (req, res) {
 
         const missed_sales = await MisedSales.find().lean();
 
-        let table = "<table>";
+        let table = "<table><thead><tr><th>Product</th><th>Description</th></thead>";
 
         for(let i = 0; i < missed_sales.length; i++){
             table += "<tr>";
@@ -248,9 +248,6 @@ router.get('/send', async function (req, res) {
         }
 
         table += "</table>";
-
-
-        console.log(table);
 
         const msg = {
             to: process.env.USER_EMAIL,
