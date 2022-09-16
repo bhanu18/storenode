@@ -8,7 +8,7 @@
     <div class="bg-light p-5 mt-2">
         {{>errors errors=errors}}
         <div class="row">
-            <div class="col-6">
+            <div class="col-6 mb-3">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addproduct"> Add
                 </button>
             </div>
@@ -43,7 +43,6 @@
     <div class="bg-light p-5 mt-2">
         <div class="row">
             <div class="col-6">
-                <a href="/sale/add" class="btn btn-primary">Add</a>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsale"> Add </button>
             </div>
         </div>
@@ -178,7 +177,7 @@
 
 <!-- Sale Modal -->
 <div class="modal fade" id="addsale" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Sale</h5>
@@ -232,7 +231,7 @@
                                         <select class="form-select" aria-label="Default select example"
                                             name="products[]" id="product_id" required>
                                             <option value="">Select a Product </option>
-                                            {{#each product}}
+                                            {{#each products}}
                                             <option value="{{_id}}">{{name}}</option>
                                             {{/each}}
                                         </select>
