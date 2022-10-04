@@ -236,44 +236,31 @@ router.get('/send', async function (req, res) {
 
         const missed_sales = await MisedSales.find().lean();
 
-        let table = "<table><thead><tr><th>Product</th><th>Description</th></thead>";
-
-        for(let i = 0; i < missed_sales.length; i++){
-            table += "<tr>";
-            table += "<td>"+missed_sales[i].product + "<td>";
-            table += "<td>"+missed_sales[i].description + "<td>";
-            table += "</tr>";
-
-            // console.log(util.inspect(missed_sales[i].product, false, null));
-        }
-
-        table += "</table>";
-
         const msg = {
             to: process.env.USER_EMAIL,
             from: process.env.SITE_EMAIL, // Use the email address or domain you verified above
             subject: 'Weekly Missed sale',
             text: 'testing this cron',
-            html: table,
+            html: tableobj(missed_sales),
         };
 
         await sgMail.send(msg);
 
-        res.status(200).json({'message': "Sent"});
+        res.status(200).json({ 'message': "Sent" });
 
         return;
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({'error': error});
+        res.status(500).json( error.toString() );
         return;
     }
 })
-;
-router.post('/missed', async function(req, res){
+    ;
+router.post('/missed', async function (req, res) {
     try {
         await MisedSales.create(req.body)
-            // console.log(req.body);
+        // console.log(req.body);
         req.flash('success_msg', 'Added succesfully');
         res.redirect('/dashboard')
     } catch (err) {
@@ -281,5 +268,23 @@ router.post('/missed', async function(req, res){
         res.render('error/500')
     }
 })
+
+
+function tableobj(data) {
+
+    let table = "<table><thead><tr><th>Product</th><th>Description</th></thead>";
+
+    for (let i = 0; i < data.length; i++) {
+        table += "<tr>";
+        table += "<td>" + data[i].product + "<td>";
+        table += "<td>" + data[i].description + "<td>";
+        table += "</tr>";
+    }
+
+    table += "</table>";
+
+    return table;
+
+}
 
 module.exports = router;
