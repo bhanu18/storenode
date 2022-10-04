@@ -5,6 +5,10 @@
     color: #fff;
 }
 
+body {
+    font-family: 'Anton', sans-serif;
+}
+
 
 /* Color of the links AFTER scroll */
 
@@ -35,4 +39,56 @@
     background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+}
+
+.text-home {
+    transition: 1s;
+    animation-name: example;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+.text-home:hover {
+    font-size: 3rem;
+    transform: rotateX(360deg);
+}
+
+@keyframes example {
+    0% {
+        color: rgba(145, 255, 0, 0.973);
+    }
+
+    25% {
+        color: yellow;
+    }
+
+    50% {
+        color: blue;
+    }
+
+    75% {
+        color: green;
+    }
+
+    100% {
+        color: red;
+    }
+}
+
+.footer {
+    background-color: #4f4f4f;
+}
+
+.contact {
+    padding: 20px;
+    background-image: linear-gradient(to bottom, #fff, #fff);
+    font-style: oblique;
+    color: #fff;
+    transition: 1s;
+    border: solid 2px #000;
+    font-family: 'Bungee Spice', cursive !important;
+}
+
+.contact:hover {
+    transform: rotateY(360deg);
 }
