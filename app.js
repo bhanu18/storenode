@@ -85,6 +85,7 @@ app.use('/', require('./router/index'));
 app.use('/user', require('./router/users'));
 app.use('/products', require('./router/products'));
 app.use('/sale', require('./router/sale'))
+app.use('/api', require('./router/api'))
 
 const port = process.env.PORT;
 
