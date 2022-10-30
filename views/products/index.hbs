@@ -1,0 +1,93 @@
+ <div class="container">
+
+ <div class="bg-light p-5 mt-2">
+        {{>errors errors=errors}}
+        <div class="row">
+            <div class="col-6">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addproduct"> Add
+                </button>
+            </div>
+        </div>
+        <table class="table table-hover table-responsive">
+            <thead>
+                <th>uid</th>
+                <th>Product name</th>
+                <th>Quantity</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <td>{{uid}} </td>
+                    <td>{{name}}</td>
+                    <td>{{quantity}}</td>
+                    <td>{{description}}</td>
+                    <td>{{price}}</td>
+                    <td><a href="/products/edit/{{_id}}"><i class="bi bi-pencil-square"></i></a>
+                        <a href="/products/delete/{{_id}}"><i class="bi bi-trash3"></i></a>
+                        {{!-- <form action="/product/{{_id}}" method="post">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button class="btn red"><i class="bi bi-trash3"></i></button>
+                        </form> --}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+    </div>
+
+ </div>
+    <!-- Modal -->
+<div class="modal fade" id="addproduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/products" method="post" class="needs-validation">
+                    <div class="mb-3">
+                        <label for="Product" class="form-label">Uid</label>
+                        <input type="text" class="form-control" name="uid" id="name" required>
+                        <div class="invalid-feedback">
+                            Please enter an product uid
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Product" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="name" id="name" required>
+                        <div class="invalid-feedback">
+                            Please enter a product name
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="text" name="price" class="form-control" id="price" required>
+                        <div class="invalid-feedback">
+                            Please enter price
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                            name="description"></textarea>
+                    </div>
+                    <div class="mb-3 text-right">
+                        <div class="row">
+                           <div class="col-6 d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

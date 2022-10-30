@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="bg-light p-5">
+        <h3>Edit</h3>
+
+        <div class="card">
+
+            <div class="card-body">
+                <form action="/sale/{{sale._id}}" method="post">
+                    <input type="hidden" name="_method" value="PUT" id="">
+                    <div class="row p-5">
+                        <div class="col-6">
+                            <label for="" class="form-label">Customer ID</label>
+                            <input type="text" readonly name="customer_id" class="form-control" value="{{sale.customer_id}}">
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">Total Price</label>
+                                    <input type="text" name="total_price" id="total_price" class="form-control"
+                                        value="{{sale.total_price}}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">Total Quantity</label>
+                                    <input type="text" name="total_quantity" id="total_quantity" class="form-control"
+                                        value="{{sale.total_quantity}}">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row p-5">
+                        <table class="table table-sale">
+                            <thead>
+                                <th>
+                                    Product
+                                </th>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Total
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </thead>
+                            <tbody>
+                                {{#each item}}
+                                <tr>
+                                    <input type="hidden" name="item_product_id[]" value="{{_id}}">
+                                    <td>
+                                        <select class="form-select" aria-label="Default select example"
+                                            data-seleted="{{product._id}}" name="products[]" id="product_id">
+                                            {{#select product._id}}
+                                            <option value="{{product._id}}" selected>{{product.name}} </option>
+                                            {{/select}}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="quantity[]" id="quantity" class="form-control"
+                                            value="{{quantity}}">
+                                    </td>
+                                    <td>
+                                        <input type="text" name="price[]" id="price" class="form-control"
+                                            value="{{price}}">
+                                    </td>
+                                    <td><input type="text" name="total[]" id="total" class="form-control" value="{{getTotalPrice quantity price}}"></td>
+                                    <td>
+                                        <a href="javascript:void(0)" onclick="add_more(this); ">
+                                            <i class="bi bi-plus-circle-fill"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="submit" class="btn btn-primary text-right"> Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
