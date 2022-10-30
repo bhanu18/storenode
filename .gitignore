@@ -1,6 +1,0 @@
-config/config.env
-client_secret.json
-
-node_modules
-
-.vscode
