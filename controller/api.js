@@ -1,4 +1,5 @@
-const {google} = require('googleapis');
+const { google } = require('googleapis');
+const url = require('url');
 
 let youtubeTokn = "";
 
@@ -15,7 +16,7 @@ const oauth2Client = new google.auth.OAuth2(
 
 // Access scopes for read-only Drive activity.
 const scopes = [
-  'https://www.googleapis.com/auth/drive.metadata.readonly'
+  'https://www.googleapis.com/auth/youtube'
 ];
 
 // Generate a url that asks permissions for the Drive activity scope
@@ -30,11 +31,44 @@ const authorizationUrl = oauth2Client.generateAuthUrl({
 });
 
 module.exports = {
-    getapi: (req, res) => {
-        res.redirect(authorizationUrl);
-    },
+  getapi: (req, res) => {
+    res.redirect(authorizationUrl);
+  },
 
-    redir: (req, res) => {
-        res.send('from google');
+  redir: async (req, res) => {
+
+    try {
+
+      // Receive the callback from Google's OAuth 2.0 server.
+      // Handle the OAuth 2.0 server response
+      let q = url.parse(req.url, true).query;
+
+      // Get access and refresh tokens (if access_type is offline)
+      let tokens = await oauth2Client.getToken(q.code);
+
+      oauth2Client.setCredentials(tokens);
+
+      const youtube = await google.youtube('v3');
+
+      const response = youtube.channels.list({
+        auth: oauth2Client,
+        pageSize: 10,
+      });
+
+      console.log(response.data);
+
+      res.send('/view');
+
+    } catch (error) {
+
+      console.log("Error:", error);
+
     }
+  },
+
+  view: (req, res) => {
+
+    res.send('from google');
+
+  }
 }
