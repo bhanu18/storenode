@@ -1,18 +1,18 @@
 <section class="vh-100">
-    <div class="container py-5 h-100">
+    <div class="container py-5">
         <div class="row d-flex justify-content-center">
             <div class="col-6">
                 {{>errors errors=errors}}
             </div>
         </div>
-        <div class="row d-flex justify-content-center h-100">
+        <div class="row d-flex justify-content-center">
             <div class="col col-lg-6 mb-4 mb-lg-0">
                 <div class="card mb-3" style="border-radius: .5rem;">
                     <div class="row g-0">
                         <div class="col-md-4 gradient-custom text-center text-white"
                             style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                            <img src="{{getImage user.image.contentType user.image.data}}"
-                                alt="Avatar" class="img-fluid mt-5 mb-2" style="width: 80px;" />
+                            <img src="{{getImage user.image.contentType user.image.data}}" alt="Avatar"
+                                class="img-fluid mt-5 mb-2" style="width: 80px;" />
                             <h5>{{user.name}}</h5>
                             <i class="far fa-edit mb-5"></i>
                         </div>
@@ -43,7 +43,32 @@
             </div>
         </div>
     </div>
+<div class="container">
+    <div class="responsive">
+        <table class="table table-hover">
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Verified</th>
+                <th>Image</th>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                    <td>{{name}}</td>
+                    <td>{{email}}</td>
+                    <td>{{email_verfied_at}}</td>
+                    {{#if image}}
+                    <td><img src="{{getImage image.contentType image.data}}" class="img-fluid" style="width: 80px;" alt="" /></td>
+                    {{/if}}
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
 </section>
+
 
 <!-- Modal -->
 <div class="modal fade" id="edituser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -55,7 +80,7 @@
             </div>
             <div class="modal-body">
                 <form action="/user/edit/{{user._id}}" enctype="multipart/form-data" method="POST">
-                     {{!-- <input type="hidden" name="_method" value="PUT"> --}}
+                    {{!-- <input type="hidden" name="_method" value="PUT"> --}}
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required>

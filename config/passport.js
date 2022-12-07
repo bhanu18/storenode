@@ -18,10 +18,10 @@ module.exports = function(passport) {
                 // Match password
                 bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
-                    if (isMatch) {
+                    if (isMatch && user.email_verfied_at) {
                         return done(null, user);
                     } else {
-                        return done(null, false, { message: 'Password incorrect' });
+                        return done(null, false, req.flash('error_msg', 'Password not matched'));
                     }
                 });
             });
