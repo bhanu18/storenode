@@ -1,4 +1,6 @@
-const moment = require('moment')
+const moment = require('moment');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = {
     formatDate: function(num, format) {
@@ -24,6 +26,18 @@ module.exports = {
                 ' selected="selected"$&'
             )
     },
+    sendEmail: async (sender, receiver, subject, body) => {
+        
+        const msg = {
+            to: receiver,
+            from: sender, // Use the email address or domain you verified above
+            subject: subject,
+            html: body,
+        };
+
+        await sgMail.send(msg);
+
+    }
 }
 
 function hexToBase64(strs){

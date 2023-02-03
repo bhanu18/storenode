@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 const { ensureAuthenticated } = require('../middleware/auth');
 const ObjectId = require('mongodb').ObjectId;
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-const util = require('util')
+const util = require('util');
+const { sendEmail } = require('../helpers/helpers.js');
+const QRCode = require('qrcode');
 
 const Sale = require('../models/Sale');
 const Product = require('../models/Products');
@@ -142,6 +142,7 @@ router.get('/edit/:id', ensureAuthenticated, async function (req, res) {
 router.put('/:id', ensureAuthenticated, async (req, res) => {
     try {
 
+        // to do change this loop to maps for bettter performance
         for (let i = 0; i < req.body.products.length; i++) {
             let item_obj = {
                 product: req.body.products[i],
@@ -233,18 +234,9 @@ router.get('/delete/:id', ensureAuthenticated, async (req, res) => {
 
 router.get('/send', async function (req, res) {
     try {
-
         const missed_sales = await MisedSales.find().lean();
 
-        const msg = {
-            to: process.env.USER_EMAIL,
-            from: process.env.SITE_EMAIL, // Use the email address or domain you verified above
-            subject: 'Weekly Missed sale',
-            text: 'testing this cron',
-            html: tableobj(missed_sales),
-        };
-
-        await sgMail.send(msg);
+        sendEmail(process.env.SITE_EMAIL, process.env.USER_EMAIL, 'Weekly Missed sale', tableobj(missed_sales))
 
         res.status(200).json({ 'message': "Sent" });
 
@@ -252,7 +244,7 @@ router.get('/send', async function (req, res) {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json( error.toString() );
+        res.status(500).json(error.toString());
         return;
     }
 })
@@ -269,17 +261,27 @@ router.post('/missed', async function (req, res) {
     }
 })
 
+router.get('/qr', async () => {
+    try {
+        let text = 'hi it is me'
+        console.log(await QRCode.toDataURL(text))
+    } catch (err) {
+        console.error(err)
+    }
+})
+
 
 function tableobj(data) {
 
     let table = "<table><thead><tr><th>Product</th><th>Description</th></thead>";
 
-    for (let i = 0; i < data.length; i++) {
+    data.maps( (item) => {
+        
         table += "<tr>";
-        table += "<td>" + data[i].product + "<td>";
-        table += "<td>" + data[i].description + "<td>";
+        table += "<td>" + item.product + "<td>";
+        table += "<td>" + item.description + "<td>";
         table += "</tr>";
-    }
+    });
 
     table += "</table>";
 
